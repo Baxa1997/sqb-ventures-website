@@ -1,12 +1,21 @@
-import { ExternalLink, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
+import Image from 'next/image';
+import type { CSSProperties } from 'react';
+import mark from '@assets/img/mark.png';
 import { ClosingCta, PageHead, Words } from '@shared/components';
 import { TEAM } from '@shared/data/team';
 import { createT, type Locale } from '@shared/i18n';
 import { common } from '@shared/locales/common';
 import { getPortfolio } from '@shared/services/portfolio.service';
-import { external, initials } from '@shared/utils';
+import { external } from '@shared/utils';
 import { dict } from '../locales';
 import '../styles.css';
+
+const LinkedinIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.06c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.77 2.5 4.77 5.75v5.7h-4v-5.05c0-1.2-.02-2.75-1.75-2.75-1.76 0-2.03 1.3-2.03 2.66v5.14h-4v-11Z" />
+  </svg>
+);
 
 const HISTORY = [
   ['2024', 'SQB sets up SQB Ventures as its venture capital arm. The fund makes its first investment.'],
@@ -40,7 +49,7 @@ export function AboutPage({ locale }: { locale: Locale }) {
               <Words text={t('People')} />
             </h2>
           </div>
-          <div className="people" id="people">
+          <div className="people" id="people" style={{ '--cols': Math.min(4, TEAM.length) } as CSSProperties}>
             {TEAM.length ? (
               TEAM.map((p) => {
                 const led = portfolio
@@ -49,26 +58,36 @@ export function AboutPage({ locale }: { locale: Locale }) {
                 const li = external(p.linkedin);
                 return (
                   <article className="person" key={p.email}>
-                    <div className="ph" data-ini={initials(p.name)}>
-                      {/* eslint-disable-next-line @next/next/no-img-element -- optional portrait set in data */}
-                      {p.photo && <img src={p.photo} alt={p.name} loading="lazy" />}
+                    <div className={p.photo ? 'ph' : 'ph empty'}>
+                      {p.photo ? (
+                        // eslint-disable-next-line @next/next/no-img-element -- optional portrait set in data
+                        <img src={p.photo} alt={p.name} loading="lazy" />
+                      ) : (
+                        <Image src={mark} alt="" sizes="72px" />
+                      )}
                     </div>
                     <h3>{p.name}</h3>
                     <p className="pos">{t(p.position)}</p>
-                    <p className="led">
-                      <span>{t('Projects led')}</span>
-                      {led.length ? led.join(', ') : '—'}
-                    </p>
-                    <p className="co-links">
+                    {led.length > 0 && (
+                      <p className="led">
+                        <span>{t('Projects led')}</span>
+                        {led.join(', ')}
+                      </p>
+                    )}
+                    <p className="person-links">
                       {li && (
-                        <a href={li} target="_blank" rel="noopener">
-                          <ExternalLink />
-                          <span>LinkedIn</span>
+                        <a
+                          href={li}
+                          target="_blank"
+                          rel="noopener"
+                          aria-label={`${p.name} — LinkedIn`}
+                          title="LinkedIn"
+                        >
+                          <LinkedinIcon />
                         </a>
                       )}
-                      <a href={`mailto:${p.email}`}>
+                      <a href={`mailto:${p.email}`} aria-label={p.email} title={p.email}>
                         <Mail />
-                        <span>{p.email}</span>
                       </a>
                     </p>
                   </article>

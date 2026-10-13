@@ -14,10 +14,20 @@
 .sub a:hover{background:var(--paper)}
 .hdr-end{display:flex;align-items:center;gap:10px}
 .hdr .btn{white-space:nowrap;padding:11px 22px;font-size:.92rem}
-.langs{display:flex;border:1px solid var(--line);border-radius:99px;overflow:hidden}
-.langs a{font:700 .78rem/1 var(--font);padding:8px;background:#fff;color:var(--steel);text-decoration:none}
-.langs a[aria-current]{background:var(--sky);color:#fff}
-.nav .langs{display:none}
+.langs{position:relative}
+.langs-btn{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px;border:1px solid var(--line);border-radius:99px;background:#fff;color:var(--ink);font:700 .8rem/1 var(--font);letter-spacing:.03em;cursor:pointer;transition:border-color .2s,color .2s}
+.langs-btn:hover,.langs-btn[aria-expanded=true]{border-color:var(--sky);color:var(--sky)}
+.langs-btn svg{width:16px;height:16px;flex:none}
+.langs-btn .chev{width:14px;height:14px;transition:transform .2s}
+.langs-btn[aria-expanded=true] .chev{transform:rotate(180deg)}
+.langs-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:60;min-width:190px;list-style:none;margin:0;padding:6px;background:#fff;border-radius:14px;box-shadow:0 18px 48px rgba(20,26,66,.16);animation:langs-in .15s ease-out}
+.langs-menu a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;font-size:.92rem;color:var(--ink)}
+.langs-menu a:hover{background:var(--paper)}
+.langs-menu a[aria-current]{color:var(--sky)}
+.langs-menu b{font-size:.75rem;letter-spacing:.04em;width:22px;color:var(--steel)}
+.langs-menu a[aria-current] b{color:var(--sky)}
+.langs-menu svg{width:16px;height:16px;margin-left:auto}
+@keyframes langs-in{from{opacity:0;transform:translateY(-4px)}}
 .menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:6px;padding:8px;cursor:pointer;color:var(--navy)}
 @media (max-width:1240px){
   .nav{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;flex-direction:column;align-items:stretch;padding:12px var(--gut) 20px;border-bottom:1px solid var(--line);gap:2px;max-height:calc(100vh - 80px);overflow:auto}
@@ -31,9 +41,8 @@
 @media (max-width:640px){
   .hdr .wrap{height:68px;gap:10px}
   .hdr .mark img{height:22px}
-  .langs a{padding:8px 6px}
-  .hdr-end .langs{display:none}
-  .nav .langs{display:flex;align-self:flex-start;margin-top:10px}
+  .langs-btn{padding:0 10px}
+  .langs-btn>svg:first-child{display:none}
 }
 
 /* footer */

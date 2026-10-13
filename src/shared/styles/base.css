@@ -141,6 +141,8 @@ details p{margin-top:10px;color:var(--steel)}
 label{display:grid;gap:6px;font-size:.92rem;font-weight:600}
 input,select,textarea{font:400 1rem var(--font);padding:12px 14px;border:1px solid var(--ds-line-strong);border-radius:10px;background:#fff;color:var(--navy);width:100%}
 textarea{min-height:120px;resize:vertical}
+select{appearance:none;-webkit-appearance:none;padding-right:44px;cursor:pointer;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23565e8c' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 16px center/16px}
+select:hover{border-color:var(--sky)}
 input:focus,select:focus,textarea:focus{outline:3px solid rgba(64,124,234,.3);border-color:var(--sky)}
 .err input,.err select,.err textarea{border-color:var(--bad)}
 .err::after{content:attr(data-err);color:var(--bad);font-weight:400;font-size:.85rem}

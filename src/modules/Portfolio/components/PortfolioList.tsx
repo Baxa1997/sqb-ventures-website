@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { createT, type Locale } from '@shared/i18n';
+import { common } from '@shared/locales/common';
 import { dict } from '../locales';
 import type { Row } from '../helpers';
 import { PortfolioRow } from './PortfolioRow';
@@ -17,7 +18,7 @@ const uniq = (rows: Row[], value: (r: Row) => string, label: (r: Row) => string 
 
 /** Drop-down filters and the list of companies. */
 export function PortfolioList({ rows, locale, base }: { rows: Row[]; locale: Locale; base: string }) {
-  const t = createT(locale, dict);
+  const t = createT(locale, common, dict);
   const [f, setF] = useState(EMPTY);
 
   const options: Record<Key, [string, string, [string, string][]]> = useMemo(

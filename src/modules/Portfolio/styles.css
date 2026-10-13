@@ -3,7 +3,7 @@
 .pf-head .stats dt{font-size:.95rem;margin-top:4px}
 .pf-bar{display:flex;gap:14px;flex-wrap:wrap;align-items:end;padding-bottom:22px;border-bottom:1px solid var(--ink)}
 .pf-bar label{flex:0 1 200px;min-width:150px;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ds-text-faint);font-weight:700}
-.pf-bar select{font-weight:600;padding:11px 12px}
+.pf-bar select{font-weight:600;padding:11px 44px 11px 14px}
 .pf-count{margin-left:auto;display:flex;gap:14px;align-items:center;padding-bottom:10px;white-space:nowrap}
 .pf-clear{border:0;background:none;color:var(--blue);font:600 .92rem var(--font);cursor:pointer;text-decoration:underline;padding:0}
 .pf-list{display:grid}

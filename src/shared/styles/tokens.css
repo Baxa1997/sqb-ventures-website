@@ -31,7 +31,7 @@
   --bad: var(--ds-danger);
 
   --font: 'Mulish', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --wrap: 1200px;
+  --wrap: 1440px;
   --gut: clamp(16px, 4vw, 40px);
   --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
 }

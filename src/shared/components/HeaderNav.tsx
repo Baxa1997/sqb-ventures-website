@@ -47,7 +47,6 @@ export function HeaderNav({ locale, items, labels, homeHref, applyHref }: Header
   }, [open]);
 
   const isCurrent = (path: string) => pathname === path || pathname.startsWith(`${path}/`);
-  const langs = <LanguageSwitcher locale={locale} label={labels.language} />;
 
   return (
     <header className="hdr">
@@ -73,10 +72,9 @@ export function HeaderNav({ locale, items, labels, homeHref, applyHref }: Header
               )}
             </div>
           ))}
-          {langs}
         </nav>
         <div className="hdr-end">
-          {langs}
+          <LanguageSwitcher locale={locale} label={labels.language} />
           <Link className="btn sm" href={applyHref}>
             {labels.pitch}
           </Link>
