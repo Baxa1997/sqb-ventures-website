@@ -1,0 +1,56 @@
+.pf-head .stats{display:grid;grid-template-columns:repeat(4,auto);justify-content:start;gap:0 56px;margin-top:40px;padding-top:24px;border-top:1px solid var(--ink)}
+.pf-head .stats dd{font:900 clamp(1.8rem,3.6vw,2.6rem)/1.1 var(--font);letter-spacing:-.02em;color:var(--sky)}
+.pf-head .stats dt{font-size:.95rem;margin-top:4px}
+.pf-bar{display:flex;gap:14px;flex-wrap:wrap;align-items:end;padding-bottom:22px;border-bottom:1px solid var(--ink)}
+.pf-bar label{flex:0 1 200px;min-width:150px;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ds-text-faint);font-weight:700}
+.pf-bar select{font-weight:600;padding:11px 12px}
+.pf-count{margin-left:auto;display:flex;gap:14px;align-items:center;padding-bottom:10px;white-space:nowrap}
+.pf-clear{border:0;background:none;color:var(--blue);font:600 .92rem var(--font);cursor:pointer;text-decoration:underline;padding:0}
+.pf-list{display:grid}
+.pf-row{display:grid;grid-template-columns:52px minmax(150px,1.1fr) minmax(0,2.2fr) minmax(110px,.8fr) minmax(150px,1fr) 24px;gap:20px;align-items:center;padding:22px 12px;border-bottom:1px solid var(--line);text-decoration:none;transition:background .15s}
+.pf-row:hover,.pf-row:focus-visible{background:var(--paper)}
+.pf-row .logo,.pf-quote .logo,.pf-id .logo{width:52px;height:52px;border-radius:50%;background:var(--sky);color:#fff;font:800 1rem/52px var(--font);text-align:center;flex:none;display:block}
+.pf-name{display:grid;gap:6px;justify-items:start;min-width:0}
+.pf-name b{font-size:1.15rem;font-weight:700;overflow-wrap:anywhere}
+.pf-row:hover .pf-name b{color:var(--blue)}
+.pf-text{color:var(--steel);font-size:.96rem;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pf-geo{display:flex;gap:6px;align-items:center;font-size:.92rem;color:var(--steel)}
+.pf-geo svg{width:16px;height:16px;flex:none;color:var(--sky)}
+.pf-row .go{width:22px;height:22px;color:var(--ds-text-faint);justify-self:end}
+.pf-row:hover .go{color:var(--blue)}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.st::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.st.active{background:#e3f4ec;color:#14704b}
+.st.exit{background:var(--ds-lavender);color:var(--ds-navy-deep)}
+.pf-empty{padding:40px 0;color:var(--steel)}
+.pf-detail{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:56px;align-items:start;margin-top:36px}
+.pf-main{display:grid;gap:24px;min-width:0}
+.pf-id{display:flex;gap:20px;align-items:center}
+.pf-id h1{font-size:clamp(2rem,4.4vw,3.2rem)}
+.pf-id .logo.big{width:80px;height:80px;line-height:80px;font-size:1.5rem}
+.pf-tagline{font-size:1.3rem;line-height:1.45;max-width:46ch}
+.pf-facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink)}
+.pf-facts div{padding:16px 12px 16px 0;border-bottom:1px solid var(--line)}
+.pf-facts dt{font-size:.84rem;color:var(--steel)}
+.pf-facts dd{font-weight:800;font-size:1.4rem;color:var(--sky);margin-top:2px}
+.pf-quote{background:var(--blue);color:#fff;border-radius:10px;padding:36px;display:grid;gap:24px;margin:0}
+.pf-quote>svg{width:36px;height:36px;color:var(--ds-lavender)}
+.pf-quote blockquote{font-size:1.4rem;line-height:1.4;font-weight:500;margin:0}
+.pf-quote figcaption{display:flex;gap:14px;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.2)}
+.pf-quote figcaption>span:last-child{display:grid}
+.pf-quote figcaption span span{color:#c9cee8;font-size:.92rem}
+@media (max-width:1040px){
+  .pf-row{grid-template-columns:52px minmax(0,1fr) 24px;gap:10px 16px}
+  .pf-row .pf-text,.pf-row .pf-geo,.pf-row .tags{grid-column:2/3}
+  .pf-row .go{grid-column:3;grid-row:1}
+  .pf-detail{grid-template-columns:1fr;gap:32px}
+}
+@media (max-width:640px){
+  .pf-head .stats{grid-template-columns:1fr 1fr;gap:20px 32px}
+  .pf-bar label{flex:1 1 140px}
+  .pf-count{margin-left:0;width:100%}
+  .pf-facts{grid-template-columns:1fr 1fr}
+  .pf-quote{padding:24px}
+  .pf-quote blockquote{font-size:1.2rem}
+  .pf-id .logo.big{width:60px;height:60px;line-height:60px}
+}

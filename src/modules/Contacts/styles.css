@@ -1,0 +1,4 @@
+.contact-list{display:grid;gap:18px;margin:24px 0}
+.contact-list div{display:flex;gap:14px}
+.contact-list svg{color:var(--blue);flex:none;margin-top:3px}
+.map{aspect-ratio:16/10;border-radius:10px;border:1px solid var(--line);background-color:var(--paper);background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:32px 32px;display:grid;place-items:center;text-align:center;padding:20px}

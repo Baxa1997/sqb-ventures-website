@@ -1,0 +1,3 @@
+.program{background:var(--card);border-radius:16px;padding:28px}
+.program .tag{display:inline-block;margin-bottom:12px}
+.program p{color:var(--steel);margin-top:8px}

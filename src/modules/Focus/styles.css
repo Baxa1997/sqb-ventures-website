@@ -1,0 +1,13 @@
+.focus-card{background:var(--card);border-radius:16px;padding:26px;display:grid;gap:14px;align-content:start}
+.focus-card svg{width:28px;height:28px;color:var(--blue)}
+.focus-card dt{font-size:.82rem;font-weight:600;color:var(--steel);text-transform:uppercase;letter-spacing:.04em}
+.focus-card dd{margin-top:4px}
+.x-list{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+.x-list li{padding:14px 0 14px 34px;border-bottom:1px solid rgba(255,255,255,.3);position:relative}
+.x-list li::before{content:"";position:absolute;left:2px;top:22px;width:16px;height:2px;background:#fff}
+.yes{list-style:none;padding:0;counter-reset:y;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.yes li{counter-increment:y;border-top:1px solid var(--ink);padding-top:16px}
+.yes li::before{content:counter(y);font:900 3rem/1 var(--font);color:var(--sky);display:block;margin-bottom:10px}
+.yes p{color:var(--steel);margin-top:8px;font-size:1rem}
+@media (max-width:960px){.yes{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.yes,.x-list{grid-template-columns:1fr}}

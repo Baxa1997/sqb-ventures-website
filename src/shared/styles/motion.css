@@ -1,0 +1,7 @@
+/* Motion runs only when <html> has .motion (set before first paint, skipped for reduced motion).
+   Without it everything is simply visible. Keep the block list in sync with REVEAL in MotionObserver. */
+.motion .words .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .14em .12em .04em;margin:0 -.14em -.12em -.04em}
+.motion .words .w>span{display:inline-block;transform:translateY(105%);transition:transform .8s var(--ease)}
+.motion .words.in .w>span{transform:none}
+.motion :is(.reveal,.prop,.panel,.post,.focus-card,.program,.person,.pf-row,.src,.bigstats>div,.slides,.hsteps>li,.yes>li,.timeline>li,.belief>li,.x-list>li,details,.facts>div,.pagehead p,.hero-copy>p,.hero-copy>.acts,.lede,.pf-quote,.pf-facts):not(:is(.marquee,dialog,.pitch-inline,.hdr,.ftr) *){opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s var(--ease)}
+.motion :is(.reveal,.prop,.panel,.post,.focus-card,.program,.person,.pf-row,.src,.bigstats>div,.slides,.hsteps>li,.yes>li,.timeline>li,.belief>li,.x-list>li,details,.facts>div,.pagehead p,.hero-copy>p,.hero-copy>.acts,.lede,.pf-quote,.pf-facts).in{opacity:1;transform:none}

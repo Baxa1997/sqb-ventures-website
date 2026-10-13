@@ -1,0 +1,37 @@
+/* SQB Ventures design system — tokens. Source: SQB Ventures Brandbook (Aug 2025). */
+:root {
+  /* brand palette (brandbook p. 7) */
+  --ds-navy: #262f70;
+  --ds-sky: #407cea;
+  --ds-mist: #d1d8de;
+  --ds-indigo: #5764ca;
+  --ds-lavender: #acb2e4;
+  /* derived interface shades */
+  --ds-navy-deep: #1b2254;
+  --ds-sky-strong: #2e63d4;
+  --ds-sky-tint: #e4ecfc;
+  --ds-bg-soft: #f3f5f8;
+  --ds-line: #dde2e9;
+  --ds-line-strong: #b9c2ce;
+  --ds-text-soft: #565e8c;
+  --ds-text-faint: #8189ab;
+  --ds-danger: #d64545;
+  --ds-shadow-lg: 0 16px 48px rgba(38, 47, 112, 0.2);
+
+  /* website roles */
+  --ink: #141a42;
+  --navy: var(--ds-navy);
+  --sky: var(--ds-sky);
+  --blue: var(--ds-sky-strong);
+  --pale: #dde9fc;
+  --card: #f4f5f7;
+  --paper: var(--ds-bg-soft);
+  --steel: var(--ds-text-soft);
+  --line: var(--ds-line);
+  --bad: var(--ds-danger);
+
+  --font: 'Mulish', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --wrap: 1200px;
+  --gut: clamp(16px, 4vw, 40px);
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+}
