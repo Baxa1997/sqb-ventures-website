@@ -80,6 +80,9 @@ for (const f of files) {
   const keys = isConst
     ? moduleKeys.get(moduleOf(f)) || new Set()
     : new Set(dictsOf(f).flatMap((d) => [...dictKeys(d)]));
+  // shared components that take `t` as a prop are rendered with the shared dictionary
+  if (!isConst && keys.size === 0 && moduleOf(f) === 'shared')
+    dictKeys(path.join(SRC, 'shared/locales/common.ts')).forEach((k) => keys.add(k));
   for (const k of new Set(texts))
     if (!keys.has(k) && !KEEP.has(k)) missing.push(`${path.relative(SRC, f)}: ${k}`);
 }

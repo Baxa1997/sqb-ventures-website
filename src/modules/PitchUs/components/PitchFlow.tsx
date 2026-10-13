@@ -1,11 +1,11 @@
 'use client';
 
-import { ArrowRight, FileUp, MailCheck, RotateCcw, Target } from 'lucide-react';
+import { ArrowRight, Check, Clock, FileUp, MailCheck, RotateCcw, Target } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ROUTES, SITE, href } from '@shared/config';
 import { INDUSTRIES } from '@shared/data/industries';
-import { createT, type Locale } from '@shared/i18n';
+import { createT, type Locale, type TFunction } from '@shared/i18n';
 import { common } from '@shared/locales/common';
 import { partner } from '@shared/locales/partner';
 import { validate } from '@shared/utils/validate';
@@ -18,7 +18,15 @@ import '../styles.css';
 type View = { name: 'intro' } | { name: 'form' } | { name: 'done'; creds: Credentials };
 
 /** "Pitch Us": intro, a three-step application and the Founder Account login. */
-export function PitchFlow({ locale, onTop }: { locale: Locale; onTop?: () => void }) {
+export function PitchFlow(props: { locale: Locale; onTop?: () => void }) {
+  return (
+    <div className="pitch-flow">
+      <PitchView {...props} />
+    </div>
+  );
+}
+
+function PitchView({ locale, onTop }: { locale: Locale; onTop?: () => void }) {
   const t = createT(locale, common, partner, dict);
   const [view, setView] = useState<View>({ name: 'intro' });
   const go = (v: View) => {
@@ -35,11 +43,6 @@ export function PitchFlow({ locale, onTop }: { locale: Locale; onTop?: () => voi
           {t(
             'Reminder: we accept one deck per startup because of the high number of applicants, and we respond as soon as possible.',
           )}
-        </p>
-        <p>
-          <button type="button" className="btn big primary" onClick={() => go({ name: 'form' })}>
-            {t('Start')}
-          </button>
         </p>
         <h3 className="sub-h">{t('Before you start')}</h3>
         <div className="pre">
@@ -75,6 +78,15 @@ export function PitchFlow({ locale, onTop }: { locale: Locale; onTop?: () => voi
             <p>{t(a)}</p>
           </details>
         ))}
+        <div className="grow" />
+        <div className="pitch-foot">
+          <span className="foot-note">
+            <Clock /> {t('About 5 minutes, 3 steps')}
+          </span>
+          <button type="button" className="btn primary" onClick={() => go({ name: 'form' })} autoFocus>
+            {t('Start application')} <ArrowRight />
+          </button>
+        </div>
       </div>
     );
 
@@ -83,7 +95,7 @@ export function PitchFlow({ locale, onTop }: { locale: Locale; onTop?: () => voi
     const account = `${SITE.founderAccountUrl}?email=${encodeURIComponent(creds.login)}`;
     return (
       <>
-        <Progress pct={100} label={t('Progress')} />
+        <Stepper t={t} step={STEPS.length} />
         <div className="pitch-done">
           <h2>{t('Thank you!')}</h2>
           <p className="lede">
@@ -98,14 +110,15 @@ export function PitchFlow({ locale, onTop }: { locale: Locale; onTop?: () => voi
             <dd>{creds.password}</dd>
           </dl>
           <p className="hint">{t('Save the login and password now. We reply within ten working days.')}</p>
-          <p className="acts">
-            <a className="btn" href={account}>
-              {t('Open Founder Account')}
-            </a>
-            <button type="button" className="btn caps" onClick={() => go({ name: 'intro' })}>
+          <div className="grow" />
+          <div className="pitch-foot">
+            <button type="button" className="btn" onClick={() => go({ name: 'intro' })}>
               <RotateCcw /> {t('Reload')}
             </button>
-          </p>
+            <a className="btn primary" href={account}>
+              {t('Open Founder Account')} <ArrowRight />
+            </a>
+          </div>
         </div>
       </>
     );
@@ -114,24 +127,28 @@ export function PitchFlow({ locale, onTop }: { locale: Locale; onTop?: () => voi
   return <PitchForm locale={locale} t={t} onTop={onTop} onDone={(creds) => go({ name: 'done', creds })} />;
 }
 
-function Progress({ pct, label }: { pct: number; label: string }) {
+/** Three numbered steps; finished ones show a tick and can be revisited. */
+function Stepper({ t, step, onPick }: { t: TFunction; step: number; onPick?: (n: number) => void }) {
   return (
-    <div
-      className="pbar"
-      role="progressbar"
-      aria-label={label}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={pct}
-    >
-      <i style={{ width: `${pct}%` }} />
-    </div>
+    <ol className="stepper" aria-label={t('Progress')}>
+      {STEPS.map((name, i) => {
+        const state = i < step ? 'done' : i === step ? 'on' : '';
+        return (
+          <li key={name} className={state} aria-current={i === step ? 'step' : undefined}>
+            <button type="button" disabled={!onPick || i >= step} onClick={() => onPick?.(i)}>
+              <span className="dot">{i < step ? <Check /> : i + 1}</span>
+              <span className="name">{t(name)}</span>
+            </button>
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 
 interface PitchFormProps {
   locale: Locale;
-  t: ReturnType<typeof createT>;
+  t: TFunction;
   onTop?: () => void;
   onDone: (creds: Credentials) => void;
 }
@@ -166,6 +183,14 @@ function PitchForm({ locale, t, onTop, onDone }: PitchFormProps) {
     onTop?.();
   };
 
+  // move the cursor to the first field of the step, so typing can start right away
+  useEffect(() => {
+    formRef.current
+      ?.querySelectorAll<HTMLElement>('.stepbox')
+      [step]?.querySelector<HTMLElement>('input, select, textarea')
+      ?.focus({ preventScroll: true });
+  }, [step]);
+
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
@@ -196,13 +221,12 @@ function PitchForm({ locale, t, onTop, onDone }: PitchFormProps) {
     }
   }
 
-  const pct = Math.round(((step + 1) / (STEPS.length + 1)) * 100);
   const box = (i: number) => (i === step ? 'stepbox on' : 'stepbox');
 
   return (
     <>
       <p className="hi">{t('Hi founder, just a few clicks and you can submit your application')}</p>
-      <Progress pct={pct} label={t('Progress')} />
+      <Stepper t={t} step={step} onPick={show} />
       <form
         ref={formRef}
         className="pitch-form"
@@ -314,7 +338,8 @@ function PitchForm({ locale, t, onTop, onDone }: PitchFormProps) {
             {msg.text} {msg.account && <a href={msg.account}>{t('Sign in to your Founder Account')}</a>}
           </p>
         )}
-        <div className="formnav">
+        <div className="grow" />
+        <div className="pitch-foot">
           <button
             type="button"
             className="btn"
@@ -323,7 +348,10 @@ function PitchForm({ locale, t, onTop, onDone }: PitchFormProps) {
           >
             {t('Back')}
           </button>
-          <span className="saved">{t('Draft saved in this browser')}</span>
+          <span className="foot-note">
+            {t('Step {n} of {total}', { n: step + 1, total: STEPS.length })}
+            <span className="saved"> · {t('Draft saved in this browser')}</span>
+          </span>
           <button className="btn primary" disabled={busy}>
             {last ? (
               t('Submit')

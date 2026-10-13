@@ -223,7 +223,7 @@ export function HomePage({ locale }: { locale: Locale }) {
               {t('All insights')}
             </Link>
           </div>
-          <div className="grid">
+          <div className="post-grid">
             {getPosts()
               .slice(0, 3)
               .map((p) => (

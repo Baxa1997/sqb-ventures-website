@@ -100,4 +100,7 @@ export const dict: Dict = {
   ],
   'Open Founder Account': ['Открыть Аккаунт основателя', 'Asoschi akkauntini ochish'],
   Reload: ['Подать ещё раз', 'Qayta topshirish'],
+  'About 5 minutes, 3 steps': ['Около 5 минут, 3 шага', 'Taxminan 5 daqiqa, 3 qadam'],
+  'Start application': ['Начать заявку', 'Arizani boshlash'],
+  'Step {n} of {total}': ['Шаг {n} из {total}', '{n}/{total}-qadam'],
 };

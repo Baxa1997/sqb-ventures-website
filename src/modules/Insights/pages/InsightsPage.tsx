@@ -6,6 +6,7 @@ import { createT, type Locale } from '@shared/i18n';
 import { common } from '@shared/locales/common';
 import { getPosts } from '@shared/services/news.service';
 import { SourceCard } from '../components/SourceCard';
+import { TopicFilter } from '../components/TopicFilter';
 import { TABS, type Tab } from '../constants';
 import { dict } from '../locales';
 import '../styles.css';
@@ -15,6 +16,7 @@ export function InsightsPage({ locale, tab }: { locale: Locale; tab: Tab }) {
   const t = createT(locale, common, dict);
   const base = href(locale, ROUTES.news);
   const posts = tab === 'hub' ? getPosts() : tab === 'press' ? getPosts(true) : [];
+  const topics = [...new Set(posts.map((p) => p.category))];
 
   return (
     <>
@@ -40,11 +42,25 @@ export function InsightsPage({ locale, tab }: { locale: Locale; tab: Tab }) {
                 )}
               </p>
               {posts.length ? (
-                <div className="grid" style={{ gap: '40px 28px' }}>
-                  {posts.map((p) => (
-                    <PostCard key={p.id} post={p} locale={locale} t={t} />
-                  ))}
-                </div>
+                <>
+                  <TopicFilter
+                    target="hub-posts"
+                    label={t('Filter by topic')}
+                    topics={[
+                      { id: '', label: t('All'), count: posts.length },
+                      ...topics.map((c) => ({
+                        id: c,
+                        label: t(c),
+                        count: posts.filter((p) => p.category === c).length,
+                      })),
+                    ]}
+                  />
+                  <div className="post-grid" id="hub-posts">
+                    {posts.map((p, i) => (
+                      <PostCard key={p.id} post={p} locale={locale} t={t} featured={i === 0} />
+                    ))}
+                  </div>
+                </>
               ) : (
                 <p>{t('Nothing has been published yet.')}</p>
               )}
@@ -74,7 +90,7 @@ export function InsightsPage({ locale, tab }: { locale: Locale; tab: Tab }) {
             <>
               <p className="lede tab-lede">{t('Publications that mention SQB Ventures.')}</p>
               {posts.length ? (
-                <div className="grid" style={{ gap: '40px 28px' }}>
+                <div className="post-grid">
                   {posts.map((p) => (
                     <PostCard key={p.id} post={p} locale={locale} t={t} />
                   ))}

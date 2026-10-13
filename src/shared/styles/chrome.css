@@ -20,7 +20,7 @@
 .langs-btn svg{width:16px;height:16px;flex:none}
 .langs-btn .chev{width:14px;height:14px;transition:transform .2s}
 .langs-btn[aria-expanded=true] .chev{transform:rotate(180deg)}
-.langs-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:60;min-width:190px;list-style:none;margin:0;padding:6px;background:#fff;border-radius:14px;box-shadow:0 18px 48px rgba(20,26,66,.16);animation:langs-in .15s ease-out}
+.langs-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:60;min-width:190px;list-style:none;margin:0;padding:6px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 6px rgba(20,26,66,.06),0 18px 40px rgba(20,26,66,.14);animation:langs-in .15s ease-out}
 .langs-menu a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;font-size:.92rem;color:var(--ink)}
 .langs-menu a:hover{background:var(--paper)}
 .langs-menu a[aria-current]{color:var(--sky)}
@@ -60,12 +60,13 @@
 @media (max-width:640px){.ftr .wrap{grid-template-columns:1fr}}
 
 /* Pitch Us pop-up frame (its content loads on demand) */
-.pitch-dlg{border:0;border-radius:20px;padding:0;width:min(760px,calc(100vw - 24px));max-height:calc(100vh - 24px);margin:auto;color:var(--navy);background:#fff;box-shadow:var(--ds-shadow-lg);overflow:hidden}
+.pitch-dlg{border:0;border-radius:20px;padding:0;width:min(760px,calc(100vw - 24px));height:min(860px,calc(100dvh - 24px));max-height:none;margin:auto;color:var(--navy);background:#fff;box-shadow:var(--ds-shadow-lg);overflow:hidden}
 .pitch-dlg[open]{display:flex;flex-direction:column}
 .pitch-dlg::backdrop{background:rgba(38,47,112,.6)}
 .pitch-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 14px 28px;border-bottom:1px solid var(--line);flex:none}
 .pitch-bar b{font:700 1rem var(--font)}
 .pitch-bar .x{width:40px;height:40px;border:0;background:none;border-radius:6px;cursor:pointer;color:var(--navy);display:grid;place-items:center}
 .pitch-bar .x:hover{background:var(--paper)}
-.pitch-body{padding:28px;overflow-y:auto}
-@media (max-width:640px){.pitch-body{padding:20px}.pitch-bar{padding-left:20px}}
+.pitch-body{--pad:28px;flex:1;min-height:0;padding:var(--pad) var(--pad) 0;overflow-y:auto;overscroll-behavior:contain}
+.pitch-body>.pitch-flow{min-height:100%}
+@media (max-width:640px){.pitch-dlg{width:100vw;height:100dvh;max-width:none;border-radius:0}.pitch-body{--pad:20px}.pitch-bar{padding-left:20px}}

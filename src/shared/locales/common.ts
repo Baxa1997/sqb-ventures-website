@@ -97,4 +97,10 @@ export const common: Dict = {
   Press: ['Пресса', 'Matbuot'],
   'Sample entry': ['Пример', 'Namuna'],
   Fund: ['Фонд', 'Fond'],
+  'Read more': ['Читать далее', 'Batafsil o‘qish'],
+  '{n} min read': ['{n} мин чтения', '{n} daqiqa o‘qish'],
+  All: ['Все', 'Barchasi'],
+  Latest: ['Последнее', 'So‘nggi'],
+  'Filter by topic': ['Фильтр по теме', 'Mavzu bo‘yicha saralash'],
+  'More from the Content Hub': ['Ещё в Content Hub', 'Content Hub’dan yana'],
 };

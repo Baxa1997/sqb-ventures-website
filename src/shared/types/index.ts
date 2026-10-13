@@ -64,6 +64,8 @@ export interface NewsItem {
   category: NewsCategory;
   outlet?: string;
   url?: string;
+  /** Cover image under /public. Without one a branded cover for the category is drawn. */
+  image?: string;
   t: Localized<{ title: string; excerpt: string; body?: string }>;
 }
 
