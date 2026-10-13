@@ -8,7 +8,8 @@ import { INDUSTRIES } from '@shared/data/industries';
 import { createT, type Locale, type TFunction } from '@shared/i18n';
 import { common } from '@shared/locales/common';
 import { partner } from '@shared/locales/partner';
-import { validate } from '@shared/utils/validate';
+import { Select } from '@shared/components/Select';
+import { clearError, validate } from '@shared/utils/validate';
 import { FAQ, HEARD_FROM, MAX_DECK_BYTES, STAGES, STEPS } from '../constants';
 import { clearDraft, readDraft, saveDraft } from '../helpers/draft';
 import { dict } from '../locales';
@@ -172,7 +173,11 @@ function PitchForm({ locale, t, onTop, onDone }: PitchFormProps) {
         field instanceof HTMLInputElement ||
         field instanceof HTMLSelectElement ||
         field instanceof HTMLTextAreaElement;
-      if (ok && field.type !== 'file' && field.type !== 'checkbox') field.value = v;
+      if (ok && field.type !== 'file' && field.type !== 'checkbox') {
+        field.value = v;
+        // lets the styled selects pick the restored value up
+        if (field instanceof HTMLSelectElement) field.dispatchEvent(new Event('change', { bubbles: true }));
+      }
     }
     setCount(draft.oneLiner?.length ?? 0);
   }, []);
@@ -232,7 +237,12 @@ function PitchForm({ locale, t, onTop, onDone }: PitchFormProps) {
         className="pitch-form"
         noValidate
         onSubmit={onSubmit}
+        onChange={(e) => {
+          clearError(e);
+          saveDraft(e.currentTarget);
+        }}
         onInput={(e) => {
+          clearError(e);
           saveDraft(e.currentTarget);
           setCount((e.currentTarget.elements.namedItem('oneLiner') as HTMLTextAreaElement).value.length);
         }}
@@ -270,26 +280,20 @@ function PitchForm({ locale, t, onTop, onDone }: PitchFormProps) {
               </label>
             </div>
             <div className="row2">
-              <label>
-                {t('Industry')}
-                <select name="industry" required defaultValue="">
-                  <option value="">{t('Select an industry')}</option>
-                  {INDUSTRIES.map((i) => (
-                    <option key={i.id} value={i.id}>
-                      {i.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                {t('Stage')}
-                <select name="stage" required defaultValue="">
-                  <option value="">{t('Select a stage')}</option>
-                  {STAGES.map((s) => (
-                    <option key={s}>{s}</option>
-                  ))}
-                </select>
-              </label>
+              <Select
+                label={t('Industry')}
+                name="industry"
+                required
+                placeholder={t('Select an industry')}
+                options={INDUSTRIES.map((i) => ({ value: i.id, label: i.name }))}
+              />
+              <Select
+                label={t('Stage')}
+                name="stage"
+                required
+                placeholder={t('Select a stage')}
+                options={STAGES.map((s) => ({ value: s, label: s }))}
+              />
             </div>
             <label>
               {t('Describe your startup in one sentence')}
@@ -309,17 +313,13 @@ function PitchForm({ locale, t, onTop, onDone }: PitchFormProps) {
               {t('Pitch deck')} <small>{t('PDF or PPTX, up to 20 MB')}</small>
               <input name="deck" type="file" accept=".pdf,.ppt,.pptx" required />
             </label>
-            <label>
-              {t('How did you hear about us?')}
-              <select name="source" required defaultValue="">
-                <option value="">{t('Select an option')}</option>
-                {HEARD_FROM.map((s) => (
-                  <option key={s} value={s}>
-                    {t(s)}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <Select
+              label={t('How did you hear about us?')}
+              name="source"
+              required
+              placeholder={t('Select an option')}
+              options={HEARD_FROM.map((s) => ({ value: s, label: t(s) }))}
+            />
             <label className="check">
               <input type="checkbox" name="consent" required />
               <span>

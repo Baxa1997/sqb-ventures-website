@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { Select } from '@shared/components/Select';
 import { createT, type Locale } from '@shared/i18n';
 import { common } from '@shared/locales/common';
 import { dict } from '../locales';
@@ -54,17 +55,14 @@ export function PortfolioList({ rows, locale, base }: { rows: Row[]; locale: Loc
         {(Object.keys(options) as Key[]).map((k) => {
           const [label, all, opts] = options[k];
           return (
-            <label key={k}>
-              <span>{t(label)}</span>
-              <select value={f[k]} onChange={(e) => setF({ ...f, [k]: e.target.value })}>
-                <option value="">{t(all)}</option>
-                {opts.map(([v, l]) => (
-                  <option key={v} value={v}>
-                    {k === 'status' ? t(l) : l}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <Select
+              key={k}
+              label={t(label)}
+              placeholder={t(all)}
+              value={f[k]}
+              onChange={(v) => setF({ ...f, [k]: v })}
+              options={opts.map(([v, l]) => ({ value: v, label: k === 'status' ? t(l) : l }))}
+            />
           );
         })}
         <div className="pf-count">

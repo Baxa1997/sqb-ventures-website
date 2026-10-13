@@ -5,7 +5,8 @@ import { createT, type Locale } from '@shared/i18n';
 import { common } from '@shared/locales/common';
 import { partner } from '@shared/locales/partner';
 import { sendPartnerRequest, type PartnerRequest } from '@shared/services/partner.service';
-import { validate } from '@shared/utils/validate';
+import { clearError, validate } from '@shared/utils/validate';
+import { Select } from './Select';
 
 const COUNTRIES = [
   'Uzbekistan',
@@ -53,7 +54,7 @@ export function PartnerForm({ locale }: { locale: Locale }) {
     );
 
   return (
-    <form className="form" noValidate onSubmit={onSubmit}>
+    <form className="form" noValidate onSubmit={onSubmit} onInput={clearError} onChange={clearError}>
       <div className="row2">
         <label>
           {t('Full name')}
@@ -69,17 +70,13 @@ export function PartnerForm({ locale }: { locale: Locale }) {
           {t('Phone number')}
           <input name="phone" type="tel" required placeholder="+998 90 123-45-67" autoComplete="tel" />
         </label>
-        <label>
-          {t('Country')}
-          <select name="country" required defaultValue="">
-            <option value="">{t('Select a country')}</option>
-            {COUNTRIES.map((c) => (
-              <option key={c} value={c}>
-                {t(c)}
-              </option>
-            ))}
-          </select>
-        </label>
+        <Select
+          label={t('Country')}
+          name="country"
+          required
+          placeholder={t('Select a country')}
+          options={COUNTRIES.map((c) => ({ value: c, label: t(c) }))}
+        />
       </div>
       <label>
         {t('Request')}

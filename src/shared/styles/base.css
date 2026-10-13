@@ -162,12 +162,30 @@ details p{margin-top:10px;color:var(--steel)}
 
 /* forms */
 .form{display:grid;gap:18px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-label{display:grid;gap:6px;font-size:.92rem;font-weight:600}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+label{display:grid;gap:6px;align-content:start;font-size:.92rem;font-weight:600}
 input,select,textarea{font:400 1rem var(--font);padding:12px 14px;border:1px solid var(--ds-line-strong);border-radius:10px;background:#fff;color:var(--navy);width:100%}
 textarea{min-height:120px;resize:vertical}
-select{appearance:none;-webkit-appearance:none;padding-right:44px;cursor:pointer;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23565e8c' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 16px center/16px}
-select:hover{border-color:var(--sky)}
+/* styled select (shared/components/Select.tsx) */
+.field{display:grid;gap:6px;align-content:start;font-size:.92rem;font-weight:600;position:relative}
+.select-box{position:relative}
+.select-native{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;bottom:0;left:0}
+.select-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px 14px 12px 16px;border:1px solid var(--ds-line-strong);border-radius:10px;background:#fff;color:var(--navy);font:400 1rem var(--font);text-align:left;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.select-btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.select-btn.empty span{color:var(--steel)}
+.select-btn svg{flex:none;width:18px;height:18px;color:var(--steel);transition:transform .2s}
+.select-btn:hover{border-color:var(--sky)}
+.select-btn:focus-visible,.select-btn[aria-expanded=true]{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(64,124,234,.25)}
+.select-btn[aria-expanded=true] svg{transform:rotate(180deg)}
+.select-list{position:absolute;z-index:40;top:calc(100% + 6px);left:0;right:0;max-height:288px;overflow-y:auto;margin:0;padding:6px;list-style:none;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 6px rgba(20,26,66,.06),0 18px 40px rgba(20,26,66,.14);scrollbar-width:thin;scrollbar-color:var(--ds-line-strong) transparent;outline:none;animation:select-in .14s ease-out}
+.select-list.up{top:auto;bottom:calc(100% + 6px)}
+.select-list li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:9px;font-weight:400;font-size:.97rem;color:var(--ink);cursor:pointer}
+.select-list li.none{color:var(--steel)}
+.select-list li.active{background:var(--paper)}
+.select-list li[aria-selected=true]{color:var(--blue);font-weight:600}
+.select-list li svg{flex:none;width:16px;height:16px}
+@keyframes select-in{from{opacity:0;transform:translateY(-4px)}}
+.err .select-btn{border-color:var(--bad)}
 input:focus,select:focus,textarea:focus{outline:3px solid rgba(64,124,234,.3);border-color:var(--sky)}
 .err input,.err select,.err textarea{border-color:var(--bad)}
 .err::after{content:attr(data-err);color:var(--bad);font-weight:400;font-size:.85rem}
