@@ -4,37 +4,31 @@ import { useState, type FormEvent } from 'react';
 import { createT, type Locale } from '@shared/i18n';
 import { common } from '@shared/locales/common';
 import { partner } from '@shared/locales/partner';
+import { errorMessage } from '@shared/api/client';
+import { COUNTRIES } from '@shared/data/countries';
 import { sendPartnerRequest, type PartnerRequest } from '@shared/services/partner.service';
 import { clearError, validate } from '@shared/utils/validate';
 import { Select } from './Select';
-
-const COUNTRIES = [
-  'Uzbekistan',
-  'Kazakhstan',
-  'Kyrgyzstan',
-  'Tajikistan',
-  'Turkmenistan',
-  'United Arab Emirates',
-  'Turkey',
-  'United States',
-  'Other',
-];
 
 /** "Become a partner" request, on For investors and Contacts. */
 export function PartnerForm({ locale }: { locale: Locale }) {
   const t = createT(locale, common, partner);
   const [sent, setSent] = useState<PartnerRequest | null>(null);
   const [busy, setBusy] = useState(false);
+  const [fail, setFail] = useState('');
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     if (!validate(form, t)) return;
-    const data = Object.fromEntries(new FormData(form)) as unknown as PartnerRequest;
+    const data = { ...Object.fromEntries(new FormData(form)), locale } as unknown as PartnerRequest;
     setBusy(true);
+    setFail('');
     try {
       await sendPartnerRequest(data);
       setSent(data);
+    } catch (err) {
+      setFail(errorMessage(err, t));
     } finally {
       setBusy(false);
     }
@@ -86,6 +80,11 @@ export function PartnerForm({ locale }: { locale: Locale }) {
           placeholder={t('Tell us who you are and how you would like to work with the fund')}
         />
       </label>
+      {fail && (
+        <p className="form-msg" role="alert">
+          {fail}
+        </p>
+      )}
       <div>
         <button className="btn primary" disabled={busy}>
           {t('Send request')}

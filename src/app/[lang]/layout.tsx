@@ -9,6 +9,8 @@ import { common } from '@shared/locales/common';
 import '@shared/styles/globals.css';
 
 export const dynamicParams = false;
+// pages re-read ucode content at most every 5 minutes (and at once via /api/revalidate)
+export const revalidate = 300;
 export const generateStaticParams = () => LOCALES.map((lang) => ({ lang }));
 
 export async function generateMetadata({ params }: LayoutProps<'/[lang]'>): Promise<Metadata> {

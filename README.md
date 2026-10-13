@@ -34,20 +34,87 @@ docker compose up --build   # http://localhost:3000
 
 ## Environment
 
-| Variable                          | Purpose                                                                   |
-| --------------------------------- | ------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`            | Public URL, used for canonical links, sitemap and Open Graph              |
-| `NEXT_PUBLIC_API_URL`             | Backend for Pitch Us and partner requests. Empty = demo mode (no network) |
-| `NEXT_PUBLIC_FOUNDER_ACCOUNT_URL` | Where the "Founder Account" links point                                   |
+Copy `.env.example` to `.env.local` (development) or `.env` (Docker) and fill it in.
 
-In demo mode the forms validate and show the same result screens as the prototype, but nothing is sent.
-With `NEXT_PUBLIC_API_URL` set they call:
+| Variable                                                        | Where  | Purpose                                                        |
+| --------------------------------------------------------------- | ------ | -------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`                                          | public | Public URL: canonical links, sitemap, Open Graph               |
+| `NEXT_PUBLIC_FOUNDER_ACCOUNT_URL`                               | public | Where the "Founder Account" links point                        |
+| `UCODE_BASE_URL`                                                | server | ucode API, default `https://api.client.u-code.io`              |
+| `UCODE_API_KEY`                                                 | server | ucode project API key. **Empty = sample content + demo forms** |
+| `UCODE_RESOURCE_ID`, `UCODE_ENVIRONMENT_ID`, `UCODE_PROJECT_ID` | server | Only for projects with several resources / environments        |
+| `UCODE_TABLE_*`                                                 | server | Table slugs, if yours differ from the defaults (see below)     |
+| `UCODE_DECKS_FOLDER`                                            | server | ucode Files folder for pitch decks (default `PitchDecks`)      |
+| `UCODE_TIMEOUT_MS`, `UCODE_REVALIDATE_SECONDS`                  | server | Request timeout; content cache time (default 300 s)            |
+| `REVALIDATE_SECRET`                                             | server | Secret for `POST /api/revalidate`                              |
 
-- `GET  {API}/applications/exists?email=…` → `{ exists: boolean }`
-- `POST {API}/applications` (multipart, includes the `deck` file) → `{ ref, login, password }`
-- `POST {API}/partner-requests` (JSON)
+## ucode integration
 
-See `src/modules/PitchUs/services/pitch.service.ts` and `src/shared/services/partner.service.ts`.
+```
+Browser ──► /api/* (Next.js route handlers) ──► ucode  (X-API-KEY added on the server)
+Pages   ──► shared/services/* ─────────────────► ucode  (cached, refreshed every 5 min or on webhook)
+```
+
+The API key is only read on the server (`src/shared/api/ucode/config.ts` imports `server-only`).
+The browser talks to the site's own `/api` routes, never to ucode directly.
+
+**Client** — `src/shared/api/ucode/`
+
+- `client.ts`: every call sends `authorization: API-KEY` and `X-API-KEY` (plus `Resource-Id` /
+  `Environment-Id` when set), with a timeout, one retry for GETs on timeouts/429/5xx, and errors as
+  `UcodeError`.
+- `items.ts`: `listItems`, `listAll`, `getItem`, `createItem`, `updateItem`, `deleteItem` over
+  `/v2/items/{table}` (bodies wrapped as `{ data, disable_faas }`, as the ucode SDKs do).
+- `files.ts`: `uploadFile` → `POST /v1/files/folder_upload`.
+- `mappers.ts`: ucode rows → website types. **The field slugs live here.**
+
+**API routes** (all wrapped by `withApi` in `src/shared/api/server/middleware.ts`: request id,
+same-origin check, per-IP rate limit, body size limit, JSON errors; ucode errors are logged and
+answered as `502` without details)
+
+| Route                                 | Does                                                          | Limit       |
+| ------------------------------------- | ------------------------------------------------------------- | ----------- |
+| `POST /api/applications` (multipart)  | Validates, uploads the deck to Files, creates the application | 5 / 10 min  |
+| `GET /api/applications/exists?email=` | One deck per startup: is the email already used?              | 20 / 10 min |
+| `POST /api/partner-requests` (JSON)   | Validates and creates a partner request                       | 5 / 10 min  |
+| `POST /api/revalidate`                | Refreshes cached content; header `x-revalidate-secret`        | 30 / min    |
+| `GET /api/health`                     | `{ ok, ucode: "configured" \| "demo" }` for uptime checks     | —           |
+
+The rate limit is kept in memory per container; with several replicas add a shared limiter in front.
+
+**Tables and field slugs** (create these in ucode, or rename the slugs in `mappers.ts` /
+`applications.server.ts` / `partner.server.ts`)
+
+| Table (`UCODE_TABLE_…`)      | Fields                                                                                                                                                                                          |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `applications` (written)     | ref, status, contact_name, email, phone, startup_name, website, industry, stage, one_liner, ask_amount (number), source, pitch_deck, locale, submitted_at                                       |
+| `partner_requests` (written) | name, email, phone, country, request, locale, submitted_at                                                                                                                                      |
+| `portfolio` (read)           | name, industry, stage, status (active/exit), city, country, invested, year, website, founder, founder_role, founder_linkedin, manager, sort_order, is_visible, tagline_en/ru/uz, quote_en/ru/uz |
+| `news` (read)                | slug, date, category (Fund/Portfolio/Events/Press), outlet, url, image, is_published, title_en/ru/uz, excerpt_en/ru/uz, body_en/ru/uz (HTML)                                                    |
+| `team` (read)                | name, email, position, linkedin, photo, sort_order, is_visible                                                                                                                                  |
+| `pages` (read)               | slug, is_published, title_en/ru/uz, body_en/ru/uz (HTML)                                                                                                                                        |
+
+Rows are created with `disable_faas: false`, so ucode functions on `applications` can create the
+Founder Account and email the login (the success screen then says the login was emailed).
+
+**Keeping pages fresh.** Content pages are prerendered and re-read from ucode at most every
+`UCODE_REVALIDATE_SECONDS`. To publish at once, call this from a ucode function/webhook after an edit:
+
+```bash
+curl -X POST https://<site>/api/revalidate \
+  -H "x-revalidate-secret: $REVALIDATE_SECRET" -H "content-type: application/json" \
+  -d '{"tags":["news"]}'          # portfolio | news | team | pages; all when omitted
+```
+
+New portfolio companies, news posts and pages get their URL on first visit (no rebuild needed).
+If ucode is unreachable, the last good page keeps being served and the error is logged.
+
+**Docker.** The build prerenders pages from ucode, so pass the key as a build secret (it is not
+stored in the image) and the rest at runtime:
+
+```bash
+UCODE_API_KEY=... docker compose up --build     # compose passes it as the ucode_api_key secret
+```
 
 ## Structure
 

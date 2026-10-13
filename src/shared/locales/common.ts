@@ -103,4 +103,12 @@ export const common: Dict = {
   Latest: ['Последнее', 'So‘nggi'],
   'Filter by topic': ['Фильтр по теме', 'Mavzu bo‘yicha saralash'],
   'More from the Content Hub': ['Ещё в Content Hub', 'Content Hub’dan yana'],
+  'Something went wrong. Please try again in a minute.': [
+    'Что-то пошло не так. Попробуйте ещё раз через минуту.',
+    'Nimadir xato ketdi. Bir daqiqadan so‘ng qayta urinib ko‘ring.',
+  ],
+  'Too many attempts. Please wait a few minutes.': [
+    'Слишком много попыток. Подождите несколько минут.',
+    'Juda ko‘p urinish. Bir necha daqiqa kuting.',
+  ],
 };

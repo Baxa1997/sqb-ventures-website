@@ -9,6 +9,7 @@ import { createT, type Locale, type TFunction } from '@shared/i18n';
 import { common } from '@shared/locales/common';
 import { partner } from '@shared/locales/partner';
 import { Accordion } from '@shared/components/Accordion';
+import { ApiRequestError, errorMessage } from '@shared/api/client';
 import { Select } from '@shared/components/Select';
 import { clearError, validate } from '@shared/utils/validate';
 import { FAQ, HEARD_FROM, MAX_DECK_BYTES, STAGES, STEPS } from '../constants';
@@ -103,10 +104,20 @@ function PitchView({ locale, onTop }: { locale: Locale; onTop?: () => void }) {
             <dd>{creds.ref}</dd>
             <dt>{t('Login')}</dt>
             <dd>{creds.login}</dd>
-            <dt>{t('Password')}</dt>
-            <dd>{creds.password}</dd>
+            {creds.password && (
+              <>
+                <dt>{t('Password')}</dt>
+                <dd>{creds.password}</dd>
+              </>
+            )}
           </dl>
-          <p className="hint">{t('Save the login and password now. We reply within ten working days.')}</p>
+          <p className="hint">
+            {creds.password
+              ? t('Save the login and password now. We reply within ten working days.')
+              : t('We have sent the login details for your Founder Account to {email}.', {
+                  email: creds.login,
+                })}
+          </p>
           <div className="grow" />
           <div className="pitch-foot">
             <button type="button" className="btn" onClick={() => go({ name: 'intro' })}>
@@ -198,6 +209,7 @@ function PitchForm({ locale, t, onTop, onDone }: PitchFormProps) {
     const box = form.querySelectorAll<HTMLElement>('.stepbox')[step];
     if (!validate(box, t)) return;
     const data = new FormData(form);
+    data.set('locale', locale);
     setBusy(true);
     try {
       if (step === 0 && (await emailTaken(String(data.get('email'))))) {
@@ -217,6 +229,13 @@ function PitchForm({ locale, t, onTop, onDone }: PitchFormProps) {
       const creds = await submitApplication(data);
       clearDraft();
       onDone(creds);
+    } catch (err) {
+      if (err instanceof ApiRequestError && err.code === 'duplicate_application') {
+        setMsg({
+          text: t('An application with this email already exists. We accept one deck per startup.'),
+          account: `${SITE.founderAccountUrl}?email=${encodeURIComponent(String(data.get('email')).trim().toLowerCase())}`,
+        });
+      } else setMsg({ text: errorMessage(err, t) });
     } finally {
       setBusy(false);
     }

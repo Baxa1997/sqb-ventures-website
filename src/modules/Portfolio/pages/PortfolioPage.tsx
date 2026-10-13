@@ -9,9 +9,9 @@ import { toRow } from '../helpers';
 import { dict } from '../locales';
 import '../styles.css';
 
-export function PortfolioPage({ locale }: { locale: Locale }) {
+export async function PortfolioPage({ locale }: { locale: Locale }) {
   const t = createT(locale, common, dict);
-  const items = getPortfolio(locale);
+  const items = await getPortfolio(locale);
   const total = items.reduce((sum, i) => sum + (i.startup.invested || 0), 0);
   const sectors = new Set(items.map((i) => i.startup.industry)).size;
   const stats: [string | number, string][] = [

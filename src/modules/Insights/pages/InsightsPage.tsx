@@ -12,10 +12,10 @@ import { dict } from '../locales';
 import '../styles.css';
 
 /** Insights: Content Hub, Industry reports and Newsroom, each at its own address. */
-export function InsightsPage({ locale, tab }: { locale: Locale; tab: Tab }) {
+export async function InsightsPage({ locale, tab }: { locale: Locale; tab: Tab }) {
   const t = createT(locale, common, dict);
   const base = href(locale, ROUTES.news);
-  const posts = tab === 'hub' ? getPosts() : tab === 'press' ? getPosts(true) : [];
+  const posts = tab === 'hub' ? await getPosts() : tab === 'press' ? await getPosts(true) : [];
   const topics = [...new Set(posts.map((p) => p.category))];
 
   return (

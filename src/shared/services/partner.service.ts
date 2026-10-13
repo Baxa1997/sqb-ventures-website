@@ -1,4 +1,4 @@
-import { SITE } from '@shared/config';
+import { apiFetch } from '@shared/api/client';
 
 export interface PartnerRequest {
   name: string;
@@ -6,18 +6,14 @@ export interface PartnerRequest {
   phone: string;
   country: string;
   request: string;
+  locale?: string;
 }
 
-/** Sends a partnership request. Without NEXT_PUBLIC_API_URL it runs in demo mode. */
+/** Sends a partnership request to /api/partner-requests. */
 export async function sendPartnerRequest(data: PartnerRequest): Promise<void> {
-  if (!SITE.apiUrl) {
-    await new Promise((r) => setTimeout(r, 300));
-    return;
-  }
-  const res = await fetch(`${SITE.apiUrl}/partner-requests`, {
+  await apiFetch('/api/partner-requests', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'content-type': 'application/json' },
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
 }

@@ -4,8 +4,17 @@ services:
       context: .
       args:
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-}
         NEXT_PUBLIC_FOUNDER_ACCOUNT_URL: ${NEXT_PUBLIC_FOUNDER_ACCOUNT_URL:-/account/login}
+        UCODE_BASE_URL: ${UCODE_BASE_URL:-https://api.client.u-code.io}
+      secrets:
+        - ucode_api_key
+    # server-side settings (API key, table slugs, revalidate secret) are read at runtime
+    env_file:
+      - .env
     ports:
       - '3000:3000'
     restart: unless-stopped
+
+secrets:
+  ucode_api_key:
+    environment: UCODE_API_KEY

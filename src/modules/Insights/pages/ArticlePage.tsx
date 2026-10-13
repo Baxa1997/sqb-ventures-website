@@ -10,16 +10,14 @@ import { external, longDate } from '@shared/utils';
 import { dict } from '../locales';
 import '../styles.css';
 
-export function ArticlePage({ locale, post }: { locale: Locale; post: NewsItem }) {
+export async function ArticlePage({ locale, post }: { locale: Locale; post: NewsItem }) {
   const t = createT(locale, common, dict);
   const press = post.category === 'Press';
   const back = href(locale, press ? `${ROUTES.news}/press` : ROUTES.news);
   const src = external(post.url);
   const label = t(press ? post.outlet || 'Press' : post.category);
   const body = pick(post.t, 'body', locale) || `<p>${pick(post.t, 'excerpt', locale)}</p>`;
-  const more = getPosts(press)
-    .filter((p) => p.id !== post.id)
-    .slice(0, 3);
+  const more = (await getPosts(press)).filter((p) => p.id !== post.id).slice(0, 3);
 
   return (
     <section className="sec white">

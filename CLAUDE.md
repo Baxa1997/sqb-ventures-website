@@ -23,5 +23,10 @@ SQB Ventures public website. Next.js 16 App Router, React 19, TypeScript, plain 
 - Styles: tokens in `src/shared/styles/tokens.css`; global rules in `src/shared/styles`; page-only rules
   in the module's `styles.css`. Elements that fade in on scroll are listed in both `motion.css` and
   `MotionObserver.tsx` (`REVEAL`) — keep them in sync.
+- Data: pages read content through `src/shared/services/*.service.ts` (server-only, async). They
+  use ucode when `UCODE_API_KEY` is set and the sample data in `src/shared/data` otherwise.
+  ucode access lives only in `src/shared/api/ucode` (server-only — never import it from client code).
+  Browser code calls the site's own `/api/*` routes via `src/shared/api/client.ts`; routes are wrapped
+  with `withApi` (`src/shared/api/server`). Field slugs for ucode tables are in `mappers.ts`.
 - Paths aliases: `@shared/*`, `@modules/*`, `@assets/*`, `@app/*`.
 - Prettier: single quotes, semicolons, width 110.

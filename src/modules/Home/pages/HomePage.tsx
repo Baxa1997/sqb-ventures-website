@@ -13,10 +13,10 @@ import { BENEFITS, PROCESS, ROTATING_WORDS } from '../constants';
 import { dict } from '../locales';
 import '../styles.css';
 
-export function HomePage({ locale }: { locale: Locale }) {
+export async function HomePage({ locale }: { locale: Locale }) {
   const t = createT(locale, common, dict);
   const to = (path: string) => href(locale, path);
-  const portfolio = getPortfolio(locale);
+  const [portfolio, posts] = await Promise.all([getPortfolio(locale), getPosts()]);
   const quotes = portfolio.filter((i) => i.quote);
   const line1 = 'Beyond Capital —';
 
@@ -239,11 +239,9 @@ export function HomePage({ locale }: { locale: Locale }) {
             </Link>
           </div>
           <div className="post-grid swipe">
-            {getPosts()
-              .slice(0, 3)
-              .map((p) => (
-                <PostCard key={p.id} post={p} locale={locale} t={t} />
-              ))}
+            {posts.slice(0, 3).map((p) => (
+              <PostCard key={p.id} post={p} locale={locale} t={t} />
+            ))}
           </div>
         </div>
       </section>

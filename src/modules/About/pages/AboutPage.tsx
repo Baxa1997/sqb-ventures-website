@@ -3,10 +3,10 @@ import Image from 'next/image';
 import type { CSSProperties } from 'react';
 import mark from '@assets/img/mark.png';
 import { ClosingCta, PageHead, Words } from '@shared/components';
-import { TEAM } from '@shared/data/team';
 import { createT, type Locale } from '@shared/i18n';
 import { common } from '@shared/locales/common';
 import { getPortfolio } from '@shared/services/portfolio.service';
+import { getTeam } from '@shared/services/team.service';
 import { external } from '@shared/utils';
 import { dict } from '../locales';
 import '../styles.css';
@@ -29,9 +29,9 @@ const HISTORY = [
   ],
 ];
 
-export function AboutPage({ locale }: { locale: Locale }) {
+export async function AboutPage({ locale }: { locale: Locale }) {
   const t = createT(locale, common, dict);
-  const portfolio = getPortfolio(locale);
+  const [portfolio, team] = await Promise.all([getPortfolio(locale), getTeam()]);
 
   return (
     <>
@@ -49,9 +49,9 @@ export function AboutPage({ locale }: { locale: Locale }) {
               <Words text={t('People')} />
             </h2>
           </div>
-          <div className="people" id="people" style={{ '--cols': Math.min(4, TEAM.length) } as CSSProperties}>
-            {TEAM.length ? (
-              TEAM.map((p) => {
+          <div className="people" id="people" style={{ '--cols': Math.min(4, team.length) } as CSSProperties}>
+            {team.length ? (
+              team.map((p) => {
                 const led = portfolio
                   .filter((it) => it.startup.manager === p.name)
                   .map((it) => it.startup.name);

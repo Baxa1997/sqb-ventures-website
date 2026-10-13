@@ -7,5 +7,4 @@ export const SITE = {
   description:
     'SQB Ventures is the VC arm backed by SQB. We invest in technology startups with the prospect of becoming global companies.',
   founderAccountUrl: process.env.NEXT_PUBLIC_FOUNDER_ACCOUNT_URL || '/account/login',
-  apiUrl: process.env.NEXT_PUBLIC_API_URL || '',
 } as const;

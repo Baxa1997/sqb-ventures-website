@@ -103,4 +103,8 @@ export const dict: Dict = {
   'About 5 minutes, 3 steps': ['Около 5 минут, 3 шага', 'Taxminan 5 daqiqa, 3 qadam'],
   'Start application': ['Начать заявку', 'Arizani boshlash'],
   'Step {n} of {total}': ['Шаг {n} из {total}', '{n}/{total}-qadam'],
+  'We have sent the login details for your Founder Account to {email}.': [
+    'Мы отправили данные для входа в Аккаунт основателя на {email}.',
+    'Asoschi akkauntiga kirish ma’lumotlarini {email} manziliga yubordik.',
+  ],
 };

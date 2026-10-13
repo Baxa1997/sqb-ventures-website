@@ -14,16 +14,14 @@ import { statusOf, toRow } from '../helpers';
 import { dict } from '../locales';
 import '../styles.css';
 
-export function CompanyPage({ locale, item }: { locale: Locale; item: PortfolioItem }) {
+export async function CompanyPage({ locale, item }: { locale: Locale; item: PortfolioItem }) {
   const t = createT(locale, common, home, dict);
   const base = href(locale, ROUTES.portfolio);
   const { startup: s, entry: f, quote } = item;
   const status = statusOf(item);
   const web = external(s.website);
   const li = external(f.founderLinkedin);
-  const others = getPortfolio(locale)
-    .filter((x) => x.id !== item.id)
-    .slice(0, 3);
+  const others = (await getPortfolio(locale)).filter((x) => x.id !== item.id).slice(0, 3);
   const facts: [string, string][] = [
     ['Sector', industryName(s.industry)],
     ['Stage', s.stage],
