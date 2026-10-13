@@ -1,3 +1,4 @@
+export * from './Accordion';
 export * from './ClosingCta';
 export * from './Footer';
 export * from './Header';

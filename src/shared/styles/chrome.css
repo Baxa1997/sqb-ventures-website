@@ -28,22 +28,31 @@
 .langs-menu a[aria-current] b{color:var(--sky)}
 .langs-menu svg{width:16px;height:16px;margin-left:auto}
 @keyframes langs-in{from{opacity:0;transform:translateY(-4px)}}
+.nav-cta{display:none}
 .menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:6px;padding:8px;cursor:pointer;color:var(--navy)}
 @media (max-width:1240px){
-  .nav{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;flex-direction:column;align-items:stretch;padding:12px var(--gut) 20px;border-bottom:1px solid var(--line);gap:2px;max-height:calc(100vh - 80px);overflow:auto}
-  .nav.open{display:flex}
-  .menu-btn{display:block}
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;height:calc(100dvh - 100%);background:#fff;flex-direction:column;align-items:stretch;padding:8px var(--gut) 24px;border-top:1px solid var(--line);gap:0;overflow-y:auto;overscroll-behavior:contain}
+  .nav.open{display:flex;animation:nav-in .22s var(--ease)}
+  .menu-btn{display:grid;place-items:center;width:42px;height:42px;padding:0}
+  .menu-btn svg{width:22px;height:22px}
   .hdr-end{margin-left:auto}
+  .nav-i{border-bottom:1px solid var(--line)}
+  .nav-i>a{padding:16px 4px;font-size:1.08rem;border-radius:0}
   .nav-i>a svg{display:none}
-  .sub{display:block;position:static;box-shadow:none;padding:0 0 6px 14px;min-width:0}
-  .sub a{color:var(--steel);padding:7px 10px}
+  .sub{display:block;position:static;box-shadow:none;padding:0 0 12px 4px;min-width:0;background:none}
+  .sub a{color:var(--steel);padding:8px 12px;font-size:.98rem}
+  .nav-cta{display:flex;justify-content:center;margin-top:24px;padding:15px 22px}
+  .menu-open,.menu-open body{overflow:hidden}
 }
+@keyframes nav-in{from{opacity:0;transform:translateY(-8px)}}
 @media (max-width:640px){
   .hdr .wrap{height:68px;gap:10px}
   .hdr .mark img{height:22px}
   .langs-btn{padding:0 10px}
   .langs-btn>svg:first-child{display:none}
 }
+/* phones: the Pitch Us button moves into the menu sheet so the header never overflows */
+@media (max-width:520px){.hdr-cta{display:none}}
 
 /* footer */
 .ftr{background:var(--blue);color:#fff;padding:56px 0 28px;font-size:.95rem}

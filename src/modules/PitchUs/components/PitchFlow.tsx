@@ -8,6 +8,7 @@ import { INDUSTRIES } from '@shared/data/industries';
 import { createT, type Locale, type TFunction } from '@shared/i18n';
 import { common } from '@shared/locales/common';
 import { partner } from '@shared/locales/partner';
+import { Accordion } from '@shared/components/Accordion';
 import { Select } from '@shared/components/Select';
 import { clearError, validate } from '@shared/utils/validate';
 import { FAQ, HEARD_FROM, MAX_DECK_BYTES, STAGES, STEPS } from '../constants';
@@ -73,12 +74,7 @@ function PitchView({ locale, onTop }: { locale: Locale; onTop?: () => void }) {
             </p>
           </div>
         </div>
-        {FAQ.map(([q, a]) => (
-          <details key={q}>
-            <summary>{t(q)}</summary>
-            <p>{t(a)}</p>
-          </details>
-        ))}
+        <Accordion items={FAQ.map(([q, a]) => ({ title: t(q), content: <p>{t(a)}</p> }))} />
         <div className="grow" />
         <div className="pitch-foot">
           <span className="foot-note">

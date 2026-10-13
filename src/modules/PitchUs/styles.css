@@ -23,6 +23,10 @@
 @media (max-width:640px){
   .pre{grid-template-columns:1fr}
   .saved{display:none}
+  .pitch-intro .foot-note{display:none}
+  .pitch-foot{padding:12px var(--pad)}
+  .pitch-foot .btn{padding:11px 16px;font-size:.85rem}
+  .pitch-done .pitch-foot .btn:not(.primary) svg{display:none}
   .stepper .name{display:none}
   .stepper li.on .name{display:inline}
 }
@@ -37,6 +41,7 @@
 .foot-note{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;color:var(--steel)}
 .foot-note svg{width:16px;height:16px}
 .pitch-foot .btn.primary{margin-left:auto}
+.pitch-foot .btn{white-space:nowrap}
 /* stepper */
 .stepper{list-style:none;padding:0;margin:0 0 28px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;counter-reset:none}
 .stepper li{display:flex;align-items:center;gap:12px;min-width:0}

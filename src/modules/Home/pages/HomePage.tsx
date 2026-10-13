@@ -25,6 +25,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       <section className="hero">
         <div className="wrap">
           <div className="hero-copy">
+            <p className="eyebrow">{t('Corporate venture capital fund of SQB')}</p>
             <h1 className="words">
               <span>
                 <Words text={line1} />
@@ -33,19 +34,33 @@ export function HomePage({ locale }: { locale: Locale }) {
                 <Words text="Create Value" start={wordCount(line1)} />
               </em>
             </h1>
-            <p>
+            <p className="hero-lede">
               {t(
-                'SQB Ventures is the VC arm backed by SQB. We invest in technology startups with the prospect of becoming global companies.',
+                'We invest in Seed and Pre-Series A technology companies from Central Asia and help them scale with the clients, infrastructure and expertise of SQB.',
               )}
             </p>
             <div className="acts">
-              <Link className="btn" href={to(ROUTES.apply)}>
-                Pitch Us
+              <Link className="btn primary" href={to(ROUTES.apply)}>
+                Pitch Us <ArrowRight />
               </Link>
               <Link className="btn text" href={`${to(ROUTES.investors)}#partner`}>
-                {t('Become a partner')} <ArrowRight />
+                {t('Co-invest with us')} <ArrowRight />
               </Link>
             </div>
+            <dl className="hero-terms">
+              <div>
+                <dt>{t('Fund size')}</dt>
+                <dd>$10M</dd>
+              </div>
+              <div>
+                <dt>{t('Ticket size')}</dt>
+                <dd>$50K – $500K</dd>
+              </div>
+              <div>
+                <dt>{t('Focus sectors')}</dt>
+                <dd>FinTech · B2B SaaS · AI</dd>
+              </div>
+            </dl>
           </div>
         </div>
         <HeroShapes />

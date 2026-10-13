@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 /** Blocks that fade up. Keep in sync with motion.css. */
 const REVEAL =
-  '.reveal,.prop,.panel,.post,.focus-card,.program,.person,.pf-row,.src,.bigstats>div,.slides,.hsteps>li,.yes>li,.timeline>li,.belief>li,.x-list>li,details,.facts>div,.pagehead p,.hero-copy>p,.hero-copy>.acts,.lede,.pf-quote,.pf-facts';
+  '.reveal,.prop,.panel,.post,.focus-card,.program,.person,.pf-row,.src,.bigstats>div,.slides,.hsteps>li,.yes>li,.timeline>li,.belief>li,.x-list>li,.accordion,.facts>div,.pagehead p,.hero-copy>p,.hero-copy>.acts,.hero-terms,.lede,.pf-quote,.pf-facts';
 const SKIP = '.marquee,dialog,.pitch-inline,.hdr,.ftr';
 
 function countUp(el: HTMLElement) {

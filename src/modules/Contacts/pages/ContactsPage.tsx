@@ -1,5 +1,5 @@
 import { Clock, Mail, MapPin, Send } from 'lucide-react';
-import { ClosingCta, PageHead, PartnerForm, Words } from '@shared/components';
+import { Accordion, ClosingCta, PageHead, PartnerForm, Words } from '@shared/components';
 import { SITE } from '@shared/config';
 import { createT, type Locale } from '@shared/i18n';
 import { common } from '@shared/locales/common';
@@ -69,12 +69,10 @@ export function ContactsPage({ locale }: { locale: Locale }) {
             </p>
           </div>
           <div>
-            {FAQ.map(([q, a], i) => (
-              <details key={q} open={i === 0}>
-                <summary>{t(q)}</summary>
-                <p>{t(a)}</p>
-              </details>
-            ))}
+            <Accordion
+              defaultOpen={0}
+              items={FAQ.map(([q, a]) => ({ title: t(q), content: <p>{t(a)}</p> }))}
+            />
           </div>
         </div>
       </section>

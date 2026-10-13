@@ -1,11 +1,16 @@
 /* hero: white, headline left, large overlapping blue forms on the right */
 .hero{position:relative;background:#fff;min-height:min(800px,calc(100vh - 80px));display:grid;align-items:center;overflow:hidden;isolation:isolate}
 .hero .wrap{width:100%;padding-block:80px;position:relative;z-index:2}
-.hero-copy{max-width:520px}
+.hero-copy{max-width:600px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:24px;padding:7px 14px 7px 10px;border-radius:99px;background:var(--ds-sky-tint);color:var(--navy);font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;max-width:none}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--sky);box-shadow:0 0 0 4px rgba(64,124,234,.18)}
 .hero h1{font-size:clamp(2.6rem,5vw,4rem)}
 .hero h1>span,.hero h1>em{display:block}
-.hero p{font-size:1.05rem;line-height:1.5;max-width:30ch;margin:22px 0 28px}
+.hero .hero-lede{font-size:1.15rem;line-height:1.6;color:var(--steel);max-width:44ch;margin:24px 0 32px}
 .hero .acts{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.hero-terms{display:flex;flex-wrap:wrap;gap:16px 36px;margin-top:44px;padding-top:24px;border-top:1px solid var(--line);max-width:560px}
+.hero-terms dt{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--steel)}
+.hero-terms dd{margin-top:4px;font-weight:700;font-size:1.05rem;color:var(--navy);white-space:nowrap}
 .shapes{position:absolute;inset:0;z-index:1;pointer-events:none;--sy:0px}
 .shapes i{position:absolute;border-radius:50%;height:175%;aspect-ratio:1;left:98%;translate:-50% 0}
 .shapes i:nth-child(1){background:var(--sky);top:-96%;transform:translateY(calc(var(--sy)*-.18))}
@@ -60,4 +65,4 @@
   .story .split{grid-template-columns:1fr;gap:36px}
   .statement{padding:80px 0}
 }
-@media (max-width:640px){.bigstats{grid-template-columns:1fr 1fr;gap:24px 32px}}
+@media (max-width:640px){.bigstats{grid-template-columns:1fr 1fr;gap:24px 32px}.hero .hero-lede{font-size:1.02rem}.hero-terms{gap:14px 24px;margin-top:32px}.eyebrow{font-size:.7rem}}

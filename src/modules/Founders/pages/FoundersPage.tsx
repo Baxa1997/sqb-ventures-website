@@ -1,5 +1,5 @@
 import { BENEFITS } from '@modules/Home';
-import { ClosingCta, MediaSlot, PageHead, Words } from '@shared/components';
+import { Accordion, ClosingCta, MediaSlot, PageHead, Words } from '@shared/components';
 import { SITE } from '@shared/config';
 import { createT, type Locale } from '@shared/i18n';
 import { common } from '@shared/locales/common';
@@ -103,12 +103,21 @@ export function FoundersPage({ locale }: { locale: Locale }) {
                 'A short video about the documents and the data room for due diligence. You need them after screening, not with the application.',
               )}
             </p>
-            <details style={{ marginTop: 20 }}>
-              <summary>{t('Read it as a list')}</summary>
-              {DOCUMENTS.map((d) => (
-                <p key={d}>{t(d)}</p>
-              ))}
-            </details>
+            <Accordion
+              className="docs-acc"
+              items={[
+                {
+                  title: t('Read it as a list'),
+                  content: (
+                    <ul className="doc-list">
+                      {DOCUMENTS.map((d) => (
+                        <li key={d}>{t(d)}</li>
+                      ))}
+                    </ul>
+                  ),
+                },
+              ]}
+            />
           </div>
           <MediaSlot src={FOUNDERS_VIDEO} placeholder={t('Video: add the file assets/video/founders.mp4')} />
         </div>

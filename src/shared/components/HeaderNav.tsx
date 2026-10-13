@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronDown, Menu } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -43,7 +43,12 @@ export function HeaderNav({ locale, items, labels, homeHref, applyHref }: Header
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    // keep the page still while the menu sheet is open
+    document.documentElement.classList.add('menu-open');
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.documentElement.classList.remove('menu-open');
+    };
   }, [open]);
 
   const isCurrent = (path: string) => pathname === path || pathname.startsWith(`${path}/`);
@@ -72,10 +77,13 @@ export function HeaderNav({ locale, items, labels, homeHref, applyHref }: Header
               )}
             </div>
           ))}
+          <Link className="btn primary nav-cta" href={applyHref} onClick={() => setOpen(false)}>
+            {labels.pitch}
+          </Link>
         </nav>
         <div className="hdr-end">
           <LanguageSwitcher locale={locale} label={labels.language} />
-          <Link className="btn sm" href={applyHref}>
+          <Link className="btn sm hdr-cta" href={applyHref}>
             {labels.pitch}
           </Link>
           <button
@@ -86,7 +94,7 @@ export function HeaderNav({ locale, items, labels, homeHref, applyHref }: Header
             aria-controls="nav"
             onClick={() => setOpen((o) => !o)}
           >
-            <Menu />
+            {open ? <X /> : <Menu />}
           </button>
         </div>
       </div>

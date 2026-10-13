@@ -115,4 +115,17 @@ export const dict: Dict = {
     'Хотите рассказать нам свою историю и что вы строите? Это займёт всего несколько кликов.',
     'Bizga o‘z hikoyangiz va nima qurayotganingiz haqida aytib bermoqchimisiz? Buning uchun bir necha bosish kifoya.',
   ],
+  'Corporate venture capital fund of SQB': [
+    'Корпоративный венчурный фонд SQB',
+    'SQB korporativ venchur fondi',
+  ],
+  'We invest in Seed and Pre-Series A technology companies from Central Asia and help them scale with the clients, infrastructure and expertise of SQB.':
+    [
+      'Инвестируем в технологические компании Центральной Азии на стадиях Seed и Pre-Series A и помогаем им масштабироваться с опорой на клиентов, инфраструктуру и экспертизу SQB.',
+      'Markaziy Osiyodagi Seed va Pre-Series A bosqichidagi texnologik kompaniyalarga sarmoya kiritamiz va ularga SQB mijozlari, infratuzilmasi hamda tajribasi yordamida o‘sishga ko‘maklashamiz.',
+    ],
+  'Co-invest with us': ['Соинвестировать с нами', 'Biz bilan birga sarmoya kiriting'],
+  'Fund size': ['Размер фонда', 'Fond hajmi'],
+  'Ticket size': ['Размер чека', 'Investitsiya miqdori'],
+  'Focus sectors': ['Ключевые отрасли', 'Asosiy sohalar'],
 };

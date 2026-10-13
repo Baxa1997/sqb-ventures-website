@@ -1,3 +1,7 @@
 .program{background:var(--card);border-radius:16px;padding:28px}
 .program .tag{display:inline-block;margin-bottom:12px}
 .program p{color:var(--steel);margin-top:8px}
+.docs-acc{margin-top:24px}
+.doc-list{list-style:none;padding:0;display:grid;gap:10px}
+.doc-list li{position:relative;padding-left:22px}
+.doc-list li::before{content:"";position:absolute;left:2px;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--sky)}
