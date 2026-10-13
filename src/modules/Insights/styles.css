@@ -38,3 +38,8 @@ a.src:hover{border-color:var(--sky);transform:translateY(-2px)}
 .article .prose{font-size:1.08rem;line-height:1.75}
 .article-foot{margin-top:72px;padding-top:40px;border-top:1px solid var(--line)}
 .article-foot .sub-h{margin-top:0}
+@media (max-width:640px){
+  .tabs{flex-wrap:wrap;gap:0 4px}
+  .tabs a{padding:12px 10px;font-size:.92rem}
+  .article-meta{font-size:.85rem;gap:6px 8px}
+}

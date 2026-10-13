@@ -65,4 +65,4 @@
   .story .split{grid-template-columns:1fr;gap:36px}
   .statement{padding:80px 0}
 }
-@media (max-width:640px){.bigstats{grid-template-columns:1fr 1fr;gap:24px 32px}.hero .hero-lede{font-size:1.02rem}.hero-terms{gap:14px 24px;margin-top:32px}.eyebrow{font-size:.7rem}}
+@media (max-width:640px){.statement,.closing{padding:56px 0}.statement h2{font-size:1.35rem}.hero .wrap{padding-top:32px}.shapes{height:220px;margin-top:28px}.story .split{gap:28px}.bigstats{margin-top:24px;grid-template-columns:1fr 1fr;gap:24px 32px}.hero .hero-lede{font-size:1.02rem}.hero-terms{gap:14px 24px;margin-top:32px}.eyebrow{font-size:.7rem}}

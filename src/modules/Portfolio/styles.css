@@ -51,6 +51,8 @@
   .pf-bar .field{flex:1 1 140px}
   .pf-count{margin-left:0;width:100%}
   .pf-facts{grid-template-columns:1fr 1fr}
+  .pf-facts dd{font-size:1.1rem}
+  .pf-tagline{font-size:1.1rem}
   .pf-quote{padding:24px}
   .pf-quote blockquote{font-size:1.2rem}
   .pf-id .logo.big{width:60px;height:60px;line-height:60px}

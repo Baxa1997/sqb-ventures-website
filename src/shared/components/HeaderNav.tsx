@@ -42,11 +42,16 @@ export function HeaderNav({ locale, items, labels, homeHref, applyHref }: Header
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    // the sheet only exists below 1240px: close it if the window grows past that
+    const wide = window.matchMedia('(min-width: 1241px)');
+    const onWide = () => wide.matches && setOpen(false);
+    wide.addEventListener('change', onWide);
     window.addEventListener('keydown', onKey);
     // keep the page still while the menu sheet is open
     document.documentElement.classList.add('menu-open');
     return () => {
       window.removeEventListener('keydown', onKey);
+      wide.removeEventListener('change', onWide);
       document.documentElement.classList.remove('menu-open');
     };
   }, [open]);
@@ -59,7 +64,13 @@ export function HeaderNav({ locale, items, labels, homeHref, applyHref }: Header
         <Link className="mark" href={homeHref} aria-label={labels.home}>
           <Image src={logo} alt="SQB Ventures" priority sizes="160px" />
         </Link>
-        <nav className={open ? 'nav open' : 'nav'} id="nav" aria-label={labels.main}>
+        <nav
+          className={open ? 'nav open' : 'nav'}
+          id="nav"
+          aria-label={labels.main}
+          // any link in the sheet closes it, including links to the page already open (#people, …)
+          onClick={(e) => (e.target as Element).closest('a') && setOpen(false)}
+        >
           {items.map((n) => (
             <div className="nav-i" key={n.href}>
               <Link href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>
@@ -69,7 +80,7 @@ export function HeaderNav({ locale, items, labels, homeHref, applyHref }: Header
               {n.sub && (
                 <div className="sub">
                   {n.sub.map((s) => (
-                    <Link key={s.href + s.label} href={s.href} onClick={() => setOpen(false)}>
+                    <Link key={s.href + s.label} href={s.href}>
                       {s.label}
                     </Link>
                   ))}
@@ -77,7 +88,7 @@ export function HeaderNav({ locale, items, labels, homeHref, applyHref }: Header
               )}
             </div>
           ))}
-          <Link className="btn primary nav-cta" href={applyHref} onClick={() => setOpen(false)}>
+          <Link className="btn primary nav-cta" href={applyHref}>
             {labels.pitch}
           </Link>
         </nav>

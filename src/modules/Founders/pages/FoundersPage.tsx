@@ -37,7 +37,7 @@ export function FoundersPage({ locale }: { locale: Locale }) {
       <section className="sec">
         <div className="wrap">
           <div className="sec-h">{h2('What we open for you')}</div>
-          <div className="cols3" style={{ gap: '36px 28px' }}>
+          <div className="cols3 roomy">
             {BENEFITS.map(({ icon: Icon, title, text }) => (
               <div className="prop" key={title}>
                 <Icon />

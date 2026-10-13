@@ -60,7 +60,7 @@ export function InvestorsPage({ locale }: { locale: Locale }) {
       <section className="sec">
         <div className="wrap">
           <div className="sec-h">{h2('What partners get')}</div>
-          <div className="cols2" style={{ gap: '36px 28px' }}>
+          <div className="cols2 roomy">
             {BENEFITS.map(({ icon: Icon, title, text }) => (
               <div className="prop" key={title}>
                 <Icon />
