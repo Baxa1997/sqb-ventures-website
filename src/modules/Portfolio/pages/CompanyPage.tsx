@@ -22,14 +22,16 @@ export async function CompanyPage({ locale, item }: { locale: Locale; item: Port
   const web = external(s.website);
   const li = external(f.founderLinkedin);
   const others = (await getPortfolio(locale)).filter((x) => x.id !== item.id).slice(0, 3);
-  const facts: [string, string][] = [
-    ['Sector', industryName(s.industry)],
-    ['Stage', s.stage],
-    ['Investment', money(s.invested)],
-    ...(f.year ? ([['Year', f.year]] as [string, string][]) : []),
-    ['Location', [s.city, s.country].filter(Boolean).join(', ') || '—'],
-    ['Status', t(status)],
-  ];
+  const facts = (
+    [
+      ['Sector', industryName(s.industry)],
+      ['Stage', s.stage],
+      ['Investment', s.invested ? money(s.invested) : ''],
+      ['Year', f.year],
+      ['Location', [s.city, s.country].filter(Boolean).join(', ') || '—'],
+      ['Status', t(status)],
+    ] as [string, string][]
+  ).filter(([, v]) => v);
 
   return (
     <>

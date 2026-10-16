@@ -1,6 +1,41 @@
 import type { Owner, Startup, StartupStatus } from '@shared/types';
 
-/* Sample content. Replace with data from the fund's CRM. */
+/* Companies SQB Ventures has invested in. Stage, amount, founders and websites are filled in from the CRM. */
+// name, industry, description
+const INVESTED: [string, string, string][] = [
+  [
+    'Clockster',
+    'saas',
+    'Frontline workforce management: shift scheduling, payroll automation and the HR routine handled by the system.',
+  ],
+  [
+    'Verifix',
+    'saas',
+    'HRM SaaS compliant with Uzbek law: e-signature, digital documents, time tracking and faster hiring.',
+  ],
+  [
+    'Robosell',
+    'e-commerce',
+    'All-in-one e-commerce platform: website, Telegram bot, mini-app, payments and CRM from one admin panel, with a mini-app inside the Click Super App.',
+  ],
+  [
+    'Tezbor',
+    'logistics',
+    'AI-based mobility and logistics platform (MaaS + DaaS) with an API, apps, dashboards and Telegram bots for moving people and goods.',
+  ],
+  [
+    'Recepta',
+    'fintech',
+    'Digital receipts via NFC and QR for Apple Wallet and Google Pay, plus loyalty programmes, the Sandiq consumer app and Sand IQ data products.',
+  ],
+  [
+    'Redeem',
+    'fintech',
+    'Corporate fuel expense platform that connects companies, banks and gas stations through an escrow account at a partner bank.',
+  ],
+];
+
+/* Sample pipeline content. Replace with data from the fund's CRM. */
 type Row = [
   string,
   string,
@@ -15,52 +50,6 @@ type Row = [
 
 // name, industry, stage, status, city, invested, committee date, description, owners
 const ROWS: Row[] = [
-  [
-    'Kredo Score',
-    'fintech',
-    'Seed',
-    'invested',
-    'Tashkent',
-    500000,
-    '2025-04-17',
-    'Credit scoring for small retailers built on cash-register and payment data, sold to banks and microfinance organisations.',
-    [
-      ['Jasur Rakhimov', 'CEO', 46],
-      ['Malika Yusupova', 'CTO', 30],
-      ['Employee option pool', 'ESOP', 9],
-      ['SQB Ventures', 'Investor', 15],
-    ],
-  ],
-  [
-    'Omborly',
-    'saas',
-    'Seed',
-    'invested',
-    'Tashkent',
-    750000,
-    '2025-06-12',
-    'Warehouse management software for distributors: receiving, picking and stock counts from a phone.',
-    [
-      ['Bekzod Aliev', 'CEO', 52],
-      ['Sherzod Nazarov', 'COO', 28],
-      ['SQB Ventures', 'Investor', 20],
-    ],
-  ],
-  [
-    'Paxta Link',
-    'agrotech',
-    'Pre-seed',
-    'invested',
-    'Fergana',
-    200000,
-    '2025-09-04',
-    'Marketplace and logistics planning that connects cotton and grain clusters with processors.',
-    [
-      ['Dilshod Ergashev', 'CEO', 60],
-      ['Nodira Karimova', 'CPO', 28],
-      ['SQB Ventures', 'Investor', 12],
-    ],
-  ],
   [
     'Zavod OS',
     'industrial-tech',
@@ -178,21 +167,6 @@ const ROWS: Row[] = [
     ],
   ],
   [
-    'Nasiya Hub',
-    'fintech',
-    'Series A',
-    'exit',
-    'Tashkent',
-    1000000,
-    '2024-06-06',
-    'Instalment payments infrastructure for offline retailers. Acquired by a regional payments group in 2026.',
-    [
-      ['Bobur Hamidov', 'CEO', 44],
-      ['Gulnora Ahmedova', 'CTO', 26],
-      ['Strategic acquirer', 'Investor', 30],
-    ],
-  ],
-  [
     'Mahalla Pay',
     'fintech',
     'Pre-seed',
@@ -214,7 +188,24 @@ const login = (name: string, domain: string) =>
     .replace(/[^a-z ]/g, '')
     .replace(/^(\w)\w* /, '$1.')}@${domain}`;
 
-export const STARTUPS: Startup[] = ROWS.map(
+const invested: Startup[] = INVESTED.map(([name, industry, description], i) => ({
+  id: `p${i + 1}`,
+  name,
+  industry,
+  stage: '',
+  status: 'invested',
+  city: '',
+  country: 'Uzbekistan',
+  invested: 0,
+  committeeDate: '',
+  description,
+  website: '',
+  manager: MANAGERS[i % 3],
+  owners: [],
+  memberEmails: [],
+}));
+
+const pipeline: Startup[] = ROWS.map(
   ([name, industry, stage, status, city, invested, committeeDate, description, owners], i) => {
     const domain = `${slug(name)}.example`;
     const list = owners.map(([n, role, share]) => ({ name: n, role, share }));
@@ -236,5 +227,7 @@ export const STARTUPS: Startup[] = ROWS.map(
     };
   },
 );
+
+export const STARTUPS: Startup[] = [...invested, ...pipeline];
 
 export const startupById = (id: string) => STARTUPS.find((s) => s.id === id);
