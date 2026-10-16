@@ -173,33 +173,35 @@ export async function HomePage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
-      <section className="sec white founders">
-        <div className="wrap">
-          <div className="pill-h">
-            <Link className="pill-label words" href={to(ROUTES.portfolio)}>
-              <Words text={t('Meet the founders')} />
-            </Link>
-            <SliderControls target="homeFounders" prevLabel={t('Previous')} nextLabel={t('Next')} />
-          </div>
-          <div className="slides fcards" id="homeFounders" tabIndex={0}>
-            {quotes.map((it) => (
-              <Link className="fcard" key={it.id} href={to(`${ROUTES.portfolio}/${it.id}`)}>
-                <span className="av">{initials(it.entry.founder || it.startup.name)}</span>
-                <blockquote>“{it.quote}”</blockquote>
-                <span className="who">
-                  <b>{it.entry.founder}</b>
-                  <span>{[it.entry.founderRole, it.startup.name].filter(Boolean).join(', ')}</span>
-                </span>
+      {quotes.length > 0 && (
+        <section className="sec white founders">
+          <div className="wrap">
+            <div className="pill-h">
+              <Link className="pill-label words" href={to(ROUTES.portfolio)}>
+                <Words text={t('Meet the founders')} />
               </Link>
-            ))}
+              <SliderControls target="homeFounders" prevLabel={t('Previous')} nextLabel={t('Next')} />
+            </div>
+            <div className="slides fcards" id="homeFounders" tabIndex={0}>
+              {quotes.map((it) => (
+                <Link className="fcard" key={it.id} href={to(`${ROUTES.portfolio}/${it.id}`)}>
+                  <span className="av">{initials(it.entry.founder || it.startup.name)}</span>
+                  <blockquote>“{it.quote}”</blockquote>
+                  <span className="who">
+                    <b>{it.entry.founder}</b>
+                    <span>{[it.entry.founderRole, it.startup.name].filter(Boolean).join(', ')}</span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+            <p className="center">
+              <Link className="btn" href={to(ROUTES.portfolio)}>
+                {t('All companies')}
+              </Link>
+            </p>
           </div>
-          <p className="center">
-            <Link className="btn" href={to(ROUTES.portfolio)}>
-              {t('All companies')}
-            </Link>
-          </p>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="sec white">
         <div className="wrap cols2">

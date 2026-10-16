@@ -17,7 +17,7 @@ export async function PortfolioPage({ locale }: { locale: Locale }) {
   const stats: [string | number, string][] = [
     [items.length, 'Investments'],
     [items.filter(isExit).length, 'Exits'],
-    [money(total), 'Invested'],
+    ...(total ? ([[money(total), 'Invested']] as [string, string][]) : []),
     [sectors, 'Sectors'],
   ];
 

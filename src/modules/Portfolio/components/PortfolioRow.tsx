@@ -17,7 +17,7 @@ export function PortfolioRow({ row, href, statusLabel }: { row: Row; href: strin
       </span>
       <span className="tags">
         <span className="tag">{row.sectorName}</span>
-        <span className="tag plain">{row.stage}</span>
+        {row.stage && <span className="tag plain">{row.stage}</span>}
       </span>
       <ArrowUpRight className="go" />
     </Link>
